@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import "../assets/styles/components/CharacterList.scss";
 import Character from "./Character";
 import Error from "./Error";
 import Loader from "./Loader";
+import useGetCharacters from "../custom-hooks/useGetCharacters";
 
 const CharacterList = () => {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { characters, loading, error, getCharacters } = useGetCharacters();
 
   useEffect(() => {
     getCharacters();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  async function getCharacters() {
-    try {
-      const response = await axios.get(
-        "https://rickandmortyapi.com/api/character"
-      );
-      const result = response.data.results;
-      setCharacters(result);
-      setLoading(false);
-      console.log(result);
-      setError(false);
-    } catch (error) {
-      setLoading(false);
-      setError(true);
-    }
-  }
 
   return (
     <div className="characterList">
@@ -46,3 +29,5 @@ const CharacterList = () => {
 };
 
 export default CharacterList;
+
+
